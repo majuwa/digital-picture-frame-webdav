@@ -3,6 +3,7 @@ import pygame
 import io
 import time
 import json
+import socket
 
 def load_config(file_path):
     try:
@@ -18,8 +19,6 @@ def load_config(file_path):
 
 
 def aspect_scale(img,bx,by):
-    """ Scales 'img' to fit into box bx/by.
-     This method will retain the original image's aspect ratio """
     ix,iy = img.get_size()
     if ix > iy:
         # fit to width
@@ -54,16 +53,35 @@ pygame.mouse.set_visible(False)
 
 config_file_path = 'config.json'
 options = load_config(config_file_path)
+font = pygame.font.Font(None, 36)
 
 client = Client(options)
 
 while True:
     content = client.list()
 
+
+                
     for image in content:
         if not image == "diashow/":
-            res = client.resource(image)
-            
+
+            trial = False
+            while trial == False:
+                try:
+                    res = client.resource(image)
+                    trial = True
+                except socket.timeout:
+                    print("Error")
+                    pygame.event.get()
+                    screen.fill("black")
+                    message = "Error Connection"
+                    text_color = (255, 255, 255)  # White text
+                    text_surface = font.render(message, True, text_color)
+                    text_rect = text_surface.get_rect()
+                    text_rect.center = (1024/ 2, 600 / 2)
+                    screen.blit(text_surface, text_rect)
+                    pygame.display.flip()
+                    time.sleep(5)  
             if not res.is_dir():
                 pygame.event.get()
                 print(image)
