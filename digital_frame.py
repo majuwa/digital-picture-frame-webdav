@@ -4,6 +4,7 @@ import io
 import time
 import json
 import socket
+import ssl
 
 def load_config(file_path):
     try:
@@ -67,7 +68,7 @@ while True:
                 try:
                     res = client.resource(image)
                     trial = True
-                except socket.timeout:
+                except (socket.timeout,ssl.SSLError):
                     print("Error")
                     pygame.event.get()
                     screen.fill("black")
