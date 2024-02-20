@@ -58,10 +58,7 @@ font = pygame.font.Font(None, 36)
 client = Client(options)
 
 while True:
-    content = client.list()
-
-
-                
+    content = client.list()             
     for image in content:
         if not image == "diashow/":
 
