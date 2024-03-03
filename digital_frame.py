@@ -81,7 +81,7 @@ try:
                     try:
                         res = client.resource(image)
                         trial = True
-                    except Exception as e:
+                    except (Exception, OSError) as e:
                         print(e)
                         pygame.event.get()
                         screen.fill("black")
@@ -118,6 +118,6 @@ except Exception as e:
                         text_rect.center = (1024/ 2, 600 / 2)
                         screen.blit(text_surface, text_rect)
                         pygame.display.flip()
-                        time.sleep(5)  
+                        time.sleep(30)  
 # pygame.quit()
                 
