@@ -36,8 +36,8 @@ The webdav server connection is configured by configuration file. This uses the 
 }
 ```
 
-| *Field value* | *Description* |
----------------------------------
+| **Field value** | **Description** |
+|---------------|----------------|
 | `webdav_hostname` | path to the `diashow`folder. A folder called `diashow` is expected |
 | `webdav_login` | Webdav username |
 | `webdav_password`| Password of the webdav user |
