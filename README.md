@@ -35,6 +35,14 @@ The webdav server connection is configured by configuration file. This uses the 
     "height" : 600
 }
 ```
-The field `webdav_hostname` contains the path to the `diashow` folder. The script expects the folder to be called `diashow`. If your folder is called otherwise, the name in the if condition of the for loops need to be adapted. The `webdav_login` is the username for the webdav server. The `webdav_password` is the password of the webdav user. The `webdav_timeout` is the timeout for the webdav connection. The `online_check_address` defines the address which the script uses to verify that the network connection is up. `image_duration` is the time in seconds each image is shown. `width` the screen width in pixels. `height`the screen height in pixels.
 
-
+| *Field value* | *Description* |
+---------------------------------
+| `webdav_hostname` | path to the `diashow`folder. A folder called `diashow` is expected |
+| `webdav_login` | Webdav username |
+| `webdav_password`| Password of the webdav user |
+|`webdav_timeout` | Timeout for the webdav connection |
+| `online_check_address` | Address which the scripts uses to check whether the network connection is up |
+| 'image_duration' | the time in seconds each image is shown |
+| `width` | the screen width in pixels |
+| `height` |the screen height in pixels |
