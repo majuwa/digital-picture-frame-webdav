@@ -43,6 +43,6 @@ The webdav server connection is configured by configuration file. This uses the 
 | `webdav_password`| Password of the webdav user |
 |`webdav_timeout` | Timeout for the webdav connection |
 | `online_check_address` | Address which the scripts uses to check whether the network connection is up |
-| 'image_duration' | the time in seconds each image is shown |
+| `image_duration` | the time in seconds each image is shown |
 | `width` | the screen width in pixels |
 | `height` |the screen height in pixels |
