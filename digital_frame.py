@@ -61,7 +61,7 @@ while not internet_on(options["online_check_address"]):
      time.sleep(2)
 
 pygame.init()
-screen = pygame.display.set_mode((1024, 600))
+screen = pygame.display.set_mode((options["width"], options["height"]))
 pygame.mouse.set_visible(False)
 
 
@@ -76,7 +76,7 @@ def handle_error(screen, font, e):
     text_color = (255, 255, 255)  # White text
     text_surface = font.render(message, True, text_color)
     text_rect = text_surface.get_rect()
-    text_rect.center = (1024/ 2, 600 / 2)
+    text_rect.center = (options["width"]/2, options["height"]/2)
     screen.blit(text_surface, text_rect)
     pygame.display.flip()
 
@@ -102,12 +102,12 @@ while True:
                                     res.write_to(buffer)
                                     buffer.seek(0)
                                     ball = pygame.image.load(buffer)
-                                    ball = aspect_scale(ball,1024,600)
+                                    ball = aspect_scale(ball,options["width"], options["height"])
                                     ballrect = ball.get_rect()
-                                    ballrect.center = (512, 300)
+                                    ballrect.center = (options["width"]/2, options["height"]/2)
                                     screen.blit(ball, ballrect)
                                     pygame.display.flip()
-                                    time.sleep(10)
+                                    time.sleep(options["image_duration"])
                             except (Exception, OSError) as e:
                                 handle_error(screen, font, e)
                                 trial = False

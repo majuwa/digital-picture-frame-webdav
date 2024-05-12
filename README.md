@@ -29,9 +29,12 @@ The webdav server connection is configured by configuration file. This uses the 
     "webdav_login":    "test-user",
     "webdav_password": "test-password",
     "webdav_timeout": 60,
-    "online_check_address" : "http://test-url" 
+    "online_check_address" : "http://test-url",
+    "image_duration" : 30,
+    "width" : 1024,
+    "height" : 600
 }
 ```
-The field `webdav_hostname` contains the path to the `diashow` folder. The script expects the folder to be called `diashow`. If your folder is called otherwise, the name in the if condition of the for loops need to be adapted. The `webdav_login` is the username for the webdav server. The `webdav_password` is the password of the webdav user. The `webdav_timeout` is the timeout for the webdav connection. The `online_check_address` defines the address which the script uses to verify that the network connection is up.
+The field `webdav_hostname` contains the path to the `diashow` folder. The script expects the folder to be called `diashow`. If your folder is called otherwise, the name in the if condition of the for loops need to be adapted. The `webdav_login` is the username for the webdav server. The `webdav_password` is the password of the webdav user. The `webdav_timeout` is the timeout for the webdav connection. The `online_check_address` defines the address which the script uses to verify that the network connection is up. `image_duration` is the time in seconds each image is shown. `width` the screen width in pixels. `height`the screen height in pixels.
 
 
