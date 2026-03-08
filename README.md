@@ -1,48 +1,89 @@
-# Python Scripts to Use for a Digital Frame
+# Python Script for a Digital Frame
 
-This is a simple Python scripts which connects to a WebDAV folder and iteratively show the images within. It thereby prints the images directly to the screen buffer without requiring an installed desktop environment. My use case is to use it as a digital frame for showing my pictures stored in a Nextcloud folder. It runs on a Raspberry Pi Zero 2W.
+A Python script that displays images on a screen in a continuous slideshow. It supports multiple image sources: a WebDAV server (e.g. Nextcloud), a local folder, or a USB stick. Images are automatically rotated based on their EXIF orientation. It runs on a Raspberry Pi Zero 2W using Pygame to write directly to the screen buffer without requiring a desktop environment.
 
-**Attention:** The script is a bit rough and makes many assumptions. For my use case it works, but there is no guarantee. Use with caution. 
+**Attention:** The script is a bit rough and makes many assumptions. For my use case it works, but there is no guarantee. Use with caution.
 
 ## Requirements
 * *Pygame* - to display the images
-* *webdavclient3* - to download the images from a WebDAV repository
+* *Pillow* - for EXIF-based image rotation
+* *webdavclient3* - to download images from a WebDAV server (only needed for the `webdav` source)
 
 The concrete packages and versions are listed in the `requirements.txt`.
 
 ## Installation
 
-The installation consist of the following steps:
+* Install the Python dependencies, e.g. using `requirements.txt` and pip
+* Install the OS dependencies:
+    * Pygame uses SDL2 to write images into the buffer
+    * SDL2 needs to be installed, e.g. for Debian: `sudo apt install libsdl2-2.0-0 libsdl2-ttf-2.0-0`
 
-* Installation of the Python dependencies, e.g. by using the `requirements.txt` and pip
-* Installation of the OS dependencies
-    * Pygame uses SDL2 to write the images into the buffer
-    * SDL2 needs to be installed, e.g. for Debian `sudo apt install libsdl2-2.0-0 libsdl2-ttf-2.0-0`
+## Usage
+
+```bash
+python digital_frame.py [path/to/config.json]
+```
+
+The config path defaults to `config.json` in the current working directory if not provided.
 
 ## Configuration
 
-The webdav server connection is configured by configuration file. This uses the default syntax from the webdav3.client By default, it expects a `config.json` in the current working directory. The path can be adapted within the variable `config_file_path`. An example configuration looks like:
+The image source and display settings are configured via a JSON file. The `source` field selects which image source to use.
+
+### WebDAV (e.g. Nextcloud)
 
 ```json
 {
-    "webdav_hostname": "test-url/folder/diashow",
-    "webdav_login":    "test-user",
-    "webdav_password": "test-password",
-    "webdav_timeout": 60,
-    "online_check_address" : "http://test-url",
-    "image_duration" : 30,
-    "width" : 1024,
-    "height" : 600
+    "source": "webdav",
+    "webdav_hostname": "https://your-nextcloud/remote.php/dav/files/user/diashow",
+    "webdav_login":    "user",
+    "webdav_password": "password",
+    "webdav_timeout":  60,
+    "online_check_address": "live-address-to-check",
+    "image_duration": 30,
+    "width": 1024,
+    "height": 600
 }
 ```
 
-| **Field value** | **Description** |
-|---------------|----------------|
-| `webdav_hostname` | path to the `diashow`folder. A folder called `diashow` is expected |
-| `webdav_login` | Webdav username |
-| `webdav_password`| Password of the webdav user |
-|`webdav_timeout` | Timeout for the webdav connection |
-| `online_check_address` | Address which the scripts uses to check whether the network connection is up |
-| `image_duration` | the time in seconds each image is shown |
-| `width` | the screen width in pixels |
-| `height` |the screen height in pixels |
+### Local Folder
+
+```json
+{
+    "source": "local_folder",
+    "image_folder": "/path/to/images",
+    "image_duration": 30,
+    "width": 1024,
+    "height": 600
+}
+```
+
+### USB Stick
+
+```json
+{
+    "source": "usb_mount",
+    "usb_device": "/dev/sda1",
+    "usb_mount_point": "/mnt/stick",
+    "image_duration": 30,
+    "width": 1024,
+    "height": 600
+}
+```
+
+### Configuration Fields
+
+| **Field** | **Description** |
+|---|---|
+| `source` | Image source: `webdav`, `local_folder`, or `usb_mount` |
+| `webdav_hostname` | Full URL to the WebDAV folder |
+| `webdav_login` | WebDAV username |
+| `webdav_password` | WebDAV password |
+| `webdav_timeout` | Timeout in seconds for the WebDAV connection |
+| `online_check_address` | URL polled until reachable before starting (optional) |
+| `image_folder` | Path to the local image folder (`local_folder` source) |
+| `usb_device` | Device path of the USB stick, e.g. `/dev/sda1` (`usb_mount` source) |
+| `usb_mount_point` | Mount point for the USB stick (`usb_mount` source) |
+| `image_duration` | Time in seconds each image is shown |
+| `width` | Screen width in pixels |
+| `height` | Screen height in pixels |
